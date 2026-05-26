@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>INEB Domingo Juarros</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#0d1f3c"/>
+<style>
+  body{margin:0;background:#0d1f3c;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:Arial,sans-serif;}
+  .logo{width:120px;height:120px;border-radius:50%;border:3px solid #c8972b;margin-bottom:20px;}
+  h1{color:#ffffff;font-size:20px;text-align:center;margin:0 20px 8px;}
+  p{color:#c8972b;font-size:14px;text-align:center;margin:0 20px 30px;}
+  .btn{background:#c8972b;color:#fff;border:none;padding:16px 40px;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;}
+  .btn:hover{background:#e8b84b;}
+  .install-btn{background:transparent;color:#c8972b;border:2px solid #c8972b;padding:12px 30px;border-radius:10px;font-size:14px;cursor:pointer;margin-top:14px;display:none;}
+</style>
+</head>
+<body>
+<img class="logo" src="icon-192.png" onerror="this.style.display='none'"/>
+<h1>INEB "Domingo Juarros"</h1>
+<p>Sistema de Rendimiento Académico</p>
+<a class="btn" href="https://script.google.com/macros/s/AKfycbz6FPP-JQSc0gLzI8Hf6-fFQIoLm96UBGRix8rmSgaTpHvzQx4KHh3CucZfrTAxuyoR/exec">
+  Abrir Sistema
+</a>
+<button class="install-btn" id="installBtn">📲 Instalar App</button>
+
+<script>
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display = 'inline-block';
+});
+document.getElementById('installBtn').addEventListener('click', function(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){ deferredPrompt = null; });
+  }
+});
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(function(){});
+}
+</script>
+</body>
+</html>
